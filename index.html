@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Федерация футзала — Статистика</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="logo">⚽ ФФС</div>
+    <nav>
+      <a href="#" data-section="home">Главная</a>
+      <a href="#" data-section="table">Таблица</a>
+      <a href="#" data-section="schedule">Расписание</a>
+      <a href="#" data-section="stats">Статистика</a>
+      <a href="#" data-section="teams">Команды</a>
+      <a href="#" data-section="contacts">Контакты</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Главная -->
+    <section id="home" class="section active">
+      <h1>Добро пожаловать на сайт Федерации футзала</h1>
+      <p>Актуальная статистика, результаты и составы команд.</p>
+      <div class="latest-results"></div>
+    </section>
+
+    <!-- Турнирная таблица -->
+    <section id="table" class="section">
+      <h2>Турнирная таблица</h2>
+      <table id="standings-table">
+        <thead>
+          <tr>
+            <th>#</th><th>Команда</th><th>И</th><th>В</th><th>Н</th><th>П</th><th>Мячи</th><th>О</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <!-- Расписание и результаты -->
+    <section id="schedule" class="section">
+      <h2>Расписание и результаты</h2>
+      <div id="matches-list"></div>
+    </section>
+
+    <!-- Статистика игроков -->
+    <section id="stats" class="section">
+      <h2>Статистика игроков</h2>
+      <input type="text" id="player-search" placeholder="Поиск по имени...">
+      <table id="players-stats-table">
+        <thead>
+          <tr>
+            <th>Игрок</th><th>Команда</th><th>Голы</th><th>Ассисты</th><th>ЖК</th><th>КК</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <!-- Команды и составы -->
+    <section id="teams" class="section">
+      <h2>Команды</h2>
+      <div id="teams-container"></div>
+    </section>
+
+    <!-- Контакты / общая информация -->
+    <section id="contacts" class="section">
+      <h2>Контакты и информация</h2>
+      <div class="contact-info">
+        <p><strong>Федерация футзала города ...</strong></p>
+        <p>Email: example@ffs.ru</p>
+        <p>Телефон: +7 (999) 123-45-67</p>
+        <p>Адрес: ул. Спортивная, 1</p>
+      </div>
+      <div class="about-text">
+        <p>Здесь может быть общая информация о лиге, регламент, новости.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Федерация футзала. Все данные демонстрационные.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
