@@ -1,7 +1,7 @@
-/* === Базовые стили === */
+/* === Базовые переменные (светлая тема) === */
 :root {
   --bg-color: #f5f5f5;
-  --bg-image: url(''); /* можно добавить свою картинку */
+  --bg-image: url('');
   --text-color: #333;
   --header-bg: #1a1a2e;
   --header-text: #fff;
@@ -9,6 +9,19 @@
   --card-bg: #fff;
   --table-border: #ddd;
   --shadow: 0 2px 5px rgba(0,0,0,0.1);
+  --modal-bg: rgba(0,0,0,0.7);
+  --hover-row: #f0f0f0;
+}
+
+/* Тёмная тема */
+body.dark-theme {
+  --bg-color: #121212;
+  --text-color: #e0e0e0;
+  --header-bg: #0a0a1a;
+  --card-bg: #1e1e2f;
+  --table-border: #333;
+  --shadow: 0 2px 8px rgba(255,255,255,0.05);
+  --hover-row: #2a2a3c;
 }
 
 body {
@@ -20,12 +33,13 @@ body {
   background-attachment: fixed;
   color: var(--text-color);
   line-height: 1.6;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 header {
   background: var(--header-bg);
   color: var(--header-text);
-  padding: 1rem 2rem;
+  padding: 0.8rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -33,9 +47,29 @@ header {
   box-shadow: 0 2px 10px rgba(0,0,0,0.2);
 }
 
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
 .logo {
   font-size: 1.8rem;
   font-weight: bold;
+}
+
+#theme-toggle {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--header-text);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  transition: background 0.3s;
+}
+#theme-toggle:hover {
+  background: rgba(255,255,255,0.2);
 }
 
 nav a {
@@ -47,7 +81,6 @@ nav a {
   border-bottom: 2px solid transparent;
   transition: border-color 0.3s;
 }
-
 nav a:hover, nav a.active {
   border-bottom-color: var(--accent);
 }
@@ -62,7 +95,6 @@ main {
   display: none;
   animation: fadeIn 0.4s ease;
 }
-
 .section.active {
   display: block;
 }
@@ -72,7 +104,7 @@ main {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* === Карточки и таблицы === */
+/* Карточки, таблицы */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -81,6 +113,7 @@ table {
   border-radius: 8px;
   overflow: hidden;
   margin-bottom: 2rem;
+  transition: background 0.3s;
 }
 
 th, td {
@@ -95,26 +128,34 @@ th {
 }
 
 tr:hover td {
-  background: #f0f0f0;
+  background: var(--hover-row);
 }
 
-.latest-results, .matches-day {
+.matches-block {
+  margin-bottom: 2rem;
+}
+
+.matches-block h3 {
+  margin-top: 0;
+}
+
+.match-cards {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 1rem;
-  margin: 1rem 0;
 }
 
-.match-card, .team-card {
+.match-card {
   background: var(--card-bg);
   box-shadow: var(--shadow);
   border-radius: 8px;
   padding: 1rem;
-  transition: transform 0.2s;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
-
 .match-card:hover {
   transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 .match-teams {
@@ -137,40 +178,91 @@ tr:hover td {
 
 .match-details {
   font-size: 0.9rem;
-  color: #666;
+  color: #888;
 }
 
-#player-search {
-  width: 100%;
-  padding: 0.75rem;
-  border: 1px solid var(--table-border);
-  border-radius: 8px;
+.live-badge {
+  display: inline-block;
+  background: #ff4444;
+  color: #fff;
+  padding: 0.1rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  margin-right: 0.5rem;
+}
+
+/* Вкладки туров */
+.tabs {
+  display: flex;
+  gap: 0.5rem;
   margin-bottom: 1.5rem;
-  font-size: 1rem;
+  flex-wrap: wrap;
 }
 
-.team-players {
-  margin-top: 1rem;
+.tab-btn {
+  padding: 0.5rem 1.2rem;
+  background: var(--card-bg);
+  border: 1px solid var(--table-border);
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--text-color);
+  transition: all 0.2s;
+}
+.tab-btn.active, .tab-btn:hover {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
 }
 
-footer {
-  text-align: center;
-  padding: 1rem;
-  background: var(--header-bg);
-  color: var(--header-text);
-  margin-top: 2rem;
+/* Модальное окно */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: var(--modal-bg);
+  z-index: 1000;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 5vh;
+  overflow-y: auto;
+}
+.modal.show {
+  display: flex;
+}
+.modal-content {
+  background: var(--card-bg);
+  max-width: 800px;
+  width: 95%;
+  border-radius: 12px;
+  padding: 2rem;
+  position: relative;
+  margin-bottom: 2rem;
+}
+.close {
+  position: absolute;
+  top: 0.5rem; right: 1rem;
+  font-size: 2rem;
+  cursor: pointer;
+  color: var(--text-color);
+  background: none;
+  border: none;
 }
 
-/* === Контакты === */
-.contact-info p {
-  margin: 0.5rem 0;
-}
-
-/* === Адаптивность === */
+/* Адаптивность */
 @media (max-width: 600px) {
   header {
     flex-direction: column;
-    text-align: center;
+    align-items: flex-start;
+  }
+  .header-left {
+    width: 100%;
+    justify-content: space-between;
+  }
+  nav {
+    margin-top: 0.5rem;
   }
   nav a {
     margin: 0 0.5rem;
